@@ -1,0 +1,82 @@
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+	//2021.6.4  Adv. 대비 공부
+	// 
+	//A. dessert 
+	//DFS 문제
+	//재귀함수 에서 중요한건  base condition(함수종료조건) 이냐 normal condition이냐가 중요 . 
+	//언젠가는 바닥이 있기 때문
+	// 가지치기(pruning)가 필요할 때도 있음 
+
+
+using namespace std;
+#include<stdio.h>
+
+typedef  long long LL; // 앞으로 이후에 long long을 LL 이라는 별칭으로 쓸래요 
+const LL INF = 1234567891011; //한계값
+const int LM = 20;
+int N, ans;
+char op[LM];
+
+
+void output() { //출력
+
+	int i;
+	ans++; // 0이되는 케이스 카운트
+	if (ans > 20) return; //20이 넘으면 출력하지말고 return
+	printf("1 ");
+	for (i = 2; i <= N; ++i) {
+		
+		printf("%c %d ", op[i], i); //연산자와 숫자를 차례로 출력
+
+	}
+	puts("");
+}
+
+
+
+
+void dfs(int step, LL a, LL b) { // a: 이전까지의 연산, b: 다음 연산, step+1:다음 연산 할 수
+	
+	//pruning (가지치기)
+	if (a >= INF || a <= -INF || b >= INF || b <= -INF) return; // 범위를 벗어나는 부분은 return
+
+	//base condition
+	if (step > N) {
+		if (a + b == 0) {
+			output();
+		}
+		return;
+	}
+	//normal condition
+	int newValue = step, deci=10;
+
+	op[step]='+';
+	dfs(step + 1, a + b, newValue);
+
+	op[step] = '-'; 
+	dfs(step + 1, a + b, -newValue);
+
+	op[step] = '.';
+	if (newValue > 9) deci = 100;
+	if (b < 0) newValue = -newValue; // b가 양수냐 음수냐, 자리수가 어떻냐에 따라 조건이 조금 까다로워짐
+	dfs(step + 1, a, b * deci + newValue);
+
+
+}
+
+int main() {
+
+
+	freopen("input.txt", "r", stdin);
+
+	scanf("%d", &N);
+	dfs(2, 0, 1); //dfs(step, a, b); a: 최근등장 ,  b : 이후 등장 
+				 //1은 항상 등장하므로 그냥 출력에 넣어주고, 2부터 시작, 0 : 이전 연산이 없으므로 초기에는0, 현재 step(연산할수)은 1
+	
+	printf("%d\n", ans); // 가지수 출력
+
+	return 0;
+}
