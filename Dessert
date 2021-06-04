@@ -1,8 +1,9 @@
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-
-	//2021.6.4  Adv. 대비 공부
+	
+	//커밋은 어떻게하고 수정은 어떻게 하는거람?
+	//2021.6.4 Adv. 대비 공부
 	// 
 	//A. dessert 
 	//DFS 문제
